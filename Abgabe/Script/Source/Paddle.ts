@@ -2,13 +2,14 @@ namespace Script {
   
   import f = FudgeCore;
   
-  export class Paddle {
+  export class Paddle extends f.Node {
     public node: f.Node;
     private speed: number = 0.2;
 
-    constructor(graph: f.Node) {
+    constructor() {
+      super("PaddlePos");
       this.node = this.createPaddle();
-      graph.addChild(this.node);
+      
     }
 
     private createPaddle(): f.Node {

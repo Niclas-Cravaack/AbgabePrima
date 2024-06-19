@@ -19,15 +19,17 @@ namespace Script {
       this.bricks = new ƒ.Node("Bricks");
 
       this.ball = new Ball(graph);
-      this.paddle = new Paddle(graph);
+      this.paddle = new Paddle();
       this.createBricks(graph);
+      graph.addChild(this.paddle);
+     
 
       ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.update.bind(this));
       ƒ.Loop.start();
     }
 
     private setupCamera(): void {
-      this.viewport.camera.mtxPivot.translateZ(15);
+      this.viewport.camera.mtxPivot.translateZ(-15);
     }
 
     private createBricks(graph: ƒ.Node): void {
