@@ -1,13 +1,14 @@
 namespace Script {
   import f = FudgeCore;
 
-  export class Ball {
+  export class Ball extends f.Node {
     public node: f.Node;
     public velocity: f.Vector3 = new f.Vector3(0.1, 0.1, 0);
 
-    constructor(graph: f.Node) {
+    constructor() {
+      super("BallPos")
       this.node = this.createBall();
-      graph.addChild(this.node);
+      
     }
 
     private createBall(): f.Node {

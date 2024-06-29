@@ -18,10 +18,12 @@ namespace Script {
       const graph: ƒ.Node = this.viewport.getBranch();
       this.bricks = new ƒ.Node("Bricks");
 
-      this.ball = new Ball(graph);
+      this.ball = new Ball();
       this.paddle = new Paddle();
       this.createBricks(graph);
       graph.addChild(this.paddle);
+      graph.addChild(this.ball);
+      
      
 
       ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.update.bind(this));
@@ -42,24 +44,19 @@ namespace Script {
         }
       }
       graph.addChild(this.bricks);
+      
     }
 
     private update(): void {
       this.ball.move();
       this.paddle.move();
-
-      this.checkCollisions();
+      this.ball.checkCollisionWithBricks(this.bricks);
+      this.ball.checkCollisionWithPaddle(this.paddle);
+      
 
       this.viewport.draw();
     }
 
-    private checkCollisions(): void {
-      // Collision detection logic between ball, paddle, and bricks
-      // Ball and wall collision
-      // Ball and paddle collision
-      // Ball and brick collision
-    }
   }
-
   new Game();
-}
+  }
