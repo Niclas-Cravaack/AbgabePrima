@@ -1,68 +1,62 @@
 namespace Script {
-  import f = FudgeCore;
+  import ƒ = FudgeCore;
 
-  export class Ball extends f.Node {
-    public node: f.Node;
-    public velocity: f.Vector3 = new f.Vector3(0.1, 0.1, 0);
+  export class Ball extends ƒ.Node {
+    public velocity: ƒ.Vector3 = new ƒ.Vector3(0.1, 0.1, 0);
 
     constructor() {
-      super("BallPos")
-      this.node = this.createBall();
-      
+      super("BallPos");
+      this.createBall();
     }
 
-    private createBall(): f.Node {
-      const node: f.Node = new f.Node("Ball");
+    private createBall(): void {
+      const mesh: ƒ.MeshSphere = new ƒ.MeshSphere();
+      const coat: ƒ.CoatColored = new ƒ.CoatColored(ƒ.Color.CSS("white"));
+      const material: ƒ.Material = new ƒ.Material("MaterialBall", ƒ.ShaderLit, coat);
 
-      const mesh: f.MeshSphere = new f.MeshSphere();
-      const coat: f.CoatColored = new f.CoatColored(f.Color.CSS("white"));
-      const material: f.Material = new f.Material("MaterialBall", f.ShaderLit, coat);
-
-      node.addComponent(new f.ComponentMesh(mesh));
-      node.addComponent(new f.ComponentMaterial(material));
-      node.addComponent(new f.ComponentTransform());
-
-      return node;
+      this.addComponent(new ƒ.ComponentMesh(mesh));
+      this.addComponent(new ƒ.ComponentMaterial(material));
+      this.addComponent(new ƒ.ComponentTransform());
     }
 
     public move(): void {
-      this.node.mtxLocal.translate(this.velocity);
+      this.mtxLocal.translate(this.velocity);
 
-      // Einfache Kollisionslogik mit Wänden
-      if (this.node.mtxLocal.translation.x > 7 || this.node.mtxLocal.translation.x < -7) {
+      // Kollision mit den Wänden
+      if (this.mtxLocal.translation.x > 7 || this.mtxLocal.translation.x < -7) {
         this.velocity.x *= -1;
       }
-      if (this.node.mtxLocal.translation.y > 7 || this.node.mtxLocal.translation.y < -7) {
-        this.velocity.y *= -1;
+      if (this.mtxLocal.translation.y > 7 || this.mtxLocal.translation.y < -7) {
+        // Verlassen des Spielfelds - Leben verlieren und Ball zurücksetzen
+        Script.state.loseLife();
+        this.reset();
       }
     }
 
-    public checkCollisionWithPaddle(paddle: Paddle): void {
-      let posBall: f.Vector3 = this.mtxLocal.translation;
-      let posPaddle: f.Vector3 = paddle.mtxLocal.translation;
-
-      if (
-        posBall.x > posPaddle.x - 1 && posBall.x < posPaddle.x + 1 &&
-        posBall.y > posPaddle.y - 0.5 && posBall.y < posPaddle.y + 0.5
-      ) {
-        this.velocity.y *= -1; // Ändere die y-Richtung bei Kollision mit dem Paddle
-      }
-    }
-
-    public checkCollisionWithBricks(bricks: f.Node): void {
+    public checkCollisionWithBricks(bricks: ƒ.Node): void {
       for (let brick of bricks.getChildren()) {
-        let posBall: f.Vector3 = this.mtxLocal.translation;
-        let posBrick: f.Vector3 = brick.mtxLocal.translation;
+        let posBall: ƒ.Vector3 = this.mtxLocal.translation;
+        let posBrick: ƒ.Vector3 = brick.mtxLocal.translation;
 
         if (
-          Math.abs(posBall.x - posBrick.x) < 1 && 
+          Math.abs(posBall.x - posBrick.x) < 1 &&
           Math.abs(posBall.y - posBrick.y) < 0.5
         ) {
-          this.velocity.y *= -1; // Ändere die y-Richtung bei Kollision mit einem Brick
-          bricks.removeChild(brick); // Entferne den getroffenen Brick
+          this.velocity.y *= -1; // Richtung umkehren
+          bricks.removeChild(brick); // Brick entfernen
+          Script.state.increaseHighscore(10); // Highscore erhöhen
           break;
         }
       }
+    }
+
+    public hasLeftField(): boolean {
+      return this.mtxLocal.translation.y < -7; // Beispiel: Ball verlässt das Spielfeld unten
+    }
+
+    private reset(): void {
+      this.mtxLocal.translation = new ƒ.Vector3(0, 0, 0); // Ball zurücksetzen
+      this.velocity = new ƒ.Vector3(0.1, 0.1, 0); // Geschwindigkeit zurücksetzen
     }
   }
 }

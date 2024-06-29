@@ -8,7 +8,7 @@ namespace Script {
   
   let viewport: f.Viewport;
   
-  document.addEventListener("interactiveViewportStarted", <EventListener>start);
+  document.addEventListener("interactiveViewportStarted", <EventListener><unknown>start);
 
 
   let camera: f.ComponentCamera;
@@ -22,7 +22,7 @@ namespace Script {
   export let state: Game;
   export let data: Data;
 
-  function start(_event: CustomEvent): void {
+  async function start(_event: CustomEvent): Promise<void> {
     viewport= _event.detail;
 
     camera = viewport.camera;
@@ -41,6 +41,15 @@ namespace Script {
     
     createBricks(graph);
 
+    let cmpAudio: f.ComponentAudio = graph.getComponent(f.ComponentAudio);
+
+    let backgroundMusic: f.Audio = new f.Audio();
+    await backgroundMusic.load("./Audio/PlayerDown.mp3");
+
+    cmpAudio = new f.ComponentAudio(backgroundMusic, true,true)
+
+    graph.addComponent(cmpAudio);
+
     state = new Game();
 
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
@@ -55,6 +64,10 @@ namespace Script {
     this.ball.move();
     this.ball.checkCollisionWithBricks(bricks);
     this.ball.checkCollisionWithPaddle(paddle);
+    
+    if (ball.hasLeftField()) {
+    state.loseLife();
+    }
     
     viewport.draw();
     
