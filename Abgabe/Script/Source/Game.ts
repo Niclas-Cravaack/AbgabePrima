@@ -1,62 +1,32 @@
 namespace Script {
   import ƒ = FudgeCore;
+  import ƒui = FudgeUserInterface;
 
-  export class Game {
-    private viewport: ƒ.Viewport;
-    private ball: Ball;
-    private paddle: Paddle;
-    private bricks: ƒ.Node;
+  export class Game extends ƒ.Mutable {
+    public height: number;
+    public velocity: number;
+    public controller: ƒui.Controller;
 
     constructor() {
-      document.addEventListener("interactiveViewportStarted", this.start.bind(this));
-    }
-
-    private async start(event: CustomEvent): Promise<void> {
-      this.viewport = event.detail;
-      this.setupCamera();
-
-      const graph: ƒ.Node = this.viewport.getBranch();
-      this.bricks = new ƒ.Node("Bricks");
-
-      this.ball = new Ball();
-      this.paddle = new Paddle();
-      this.createBricks(graph);
-      graph.addChild(this.paddle);
-      graph.addChild(this.ball);
+      super();
+      this.controller = new ƒui.Controller(this, document.querySelector("#vui"));
+      console.log(this.controller);
       
-     
-
-      ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.update.bind(this));
-      ƒ.Loop.start();
     }
-
-    private setupCamera(): void {
-      this.viewport.camera.mtxPivot.translateZ(-15);
-    }
-
-    private createBricks(graph: ƒ.Node): void {
-      for (let y: number = 0; y < 5; y++) {
-        for (let x: number = 0; x < 10; x++) {
-          const brick: Brick = BrickFactory.createBrick();
-          brick.mtxLocal.translateX(x - 5);
-          brick.mtxLocal.translateY(6 - y);
-          this.bricks.addChild(brick);
-        }
+    
+      /**
+       * setHeight
+       */
+      public setHeight(_height: number): void {
+        // console.log("set height to " + _height);
+        
+        this.height = _height;
       }
-      graph.addChild(this.bricks);
-      
-    }
 
-    private update(): void {
-      this.ball.move();
-      this.paddle.move();
-      this.ball.checkCollisionWithBricks(this.bricks);
-      this.ball.checkCollisionWithPaddle(this.paddle);
-      
-
-      this.viewport.draw();
-    }
+    protected reduceMutator(_mutator: ƒ.Mutator): void {/* */ }
 
   }
-  new Game();
-  }
+
+
+
+}
