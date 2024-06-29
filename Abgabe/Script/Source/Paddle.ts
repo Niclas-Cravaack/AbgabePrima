@@ -4,7 +4,7 @@ namespace Script {
   
   export class Paddle extends f.Node {
     public node: f.Node;
-    private speed: number = 0.2;
+   
 
     constructor() {
       super("PaddlePos");
@@ -29,13 +29,5 @@ namespace Script {
       return node;
     }
 
-    public move(): void {
-      if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_LEFT, f.KEYBOARD_CODE.A])) {
-        this.node.mtxLocal.translateX(-this.speed);
-      }
-      if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_RIGHT, f.KEYBOARD_CODE.D])) {
-        this.node.mtxLocal.translateX(this.speed);
-      }
-    }
   }
 }

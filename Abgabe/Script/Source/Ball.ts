@@ -37,29 +37,32 @@ namespace Script {
       }
     }
 
-    public checkCollisionWithPaddle(paddle: f.Node): boolean {
-      let posBall: f.Vector3 = this.node.mtxLocal.translation;
-      let posPaddle: f.Vector3 = paddle.mtxLocal.translation; // Hier wird paddle als f.Node behandelt
+    public checkCollisionWithPaddle(paddle: Paddle): void {
+      let posBall: f.Vector3 = this.mtxLocal.translation;
+      let posPaddle: f.Vector3 = paddle.mtxLocal.translation;
 
-      return (
+      if (
         posBall.x > posPaddle.x - 1 && posBall.x < posPaddle.x + 1 &&
         posBall.y > posPaddle.y - 0.5 && posBall.y < posPaddle.y + 0.5
-      );
+      ) {
+        this.velocity.y *= -1; // Ändere die y-Richtung bei Kollision mit dem Paddle
+      }
     }
 
-    public checkCollisionWithBricks(bricks: f.Node): boolean {
+    public checkCollisionWithBricks(bricks: f.Node): void {
       for (let brick of bricks.getChildren()) {
-        let posBall: f.Vector3 = this.node.mtxLocal.translation;
+        let posBall: f.Vector3 = this.mtxLocal.translation;
         let posBrick: f.Vector3 = brick.mtxLocal.translation;
 
         if (
           Math.abs(posBall.x - posBrick.x) < 1 && 
           Math.abs(posBall.y - posBrick.y) < 0.5
         ) {
-          return true;
+          this.velocity.y *= -1; // Ändere die y-Richtung bei Kollision mit einem Brick
+          bricks.removeChild(brick); // Entferne den getroffenen Brick
+          break;
         }
       }
-      return false;
     }
   }
 }

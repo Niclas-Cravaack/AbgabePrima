@@ -10,10 +10,14 @@ namespace Script {
   
   document.addEventListener("interactiveViewportStarted", <EventListener>start);
 
+
   let camera: f.ComponentCamera;
   let ball: Ball;
   let paddle: Paddle;
   let bricks: f.Node;
+  let paddleMovement: PaddleMovementComponent;
+
+  export let graph: f.Node = viewport.getBranch();
 
   export let state: Game;
   export let data: Data;
@@ -24,12 +28,11 @@ namespace Script {
     camera = viewport.camera;
     camera.mtxPivot.translate(new f.Vector3(0,0,data.cameraDistance))
 
-    let graph: f.Node = viewport.getBranch();
-
     bricks = new f.Node("Bricks");
 
     ball = new Ball();
     paddle = new Paddle();
+    paddleMovement = paddle.getComponent(PaddleMovementComponent)
 
     this.createBricks(graph);
 

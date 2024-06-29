@@ -4,7 +4,7 @@ namespace Script {
 
   export class Game extends ƒ.Mutable {
     public height: number;
-    public velocity: number;
+    public health: number;
     public controller: ƒui.Controller;
 
     constructor() {
