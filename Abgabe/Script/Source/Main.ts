@@ -12,6 +12,7 @@ namespace Script {
 
 
   let camera: f.ComponentCamera;
+  let stateMachine: GameState;
   let ball: Ball;
   let paddle: Paddle;
   let bricks: f.Node;
@@ -44,13 +45,16 @@ namespace Script {
     let cmpAudio: f.ComponentAudio = graph.getComponent(f.ComponentAudio);
 
     let backgroundMusic: f.Audio = new f.Audio();
-    await backgroundMusic.load("./Audio/PlayerDown.mp3");
+    await backgroundMusic.load("./Audio/background.mp3");
 
     cmpAudio = new f.ComponentAudio(backgroundMusic, true,true)
 
     graph.addComponent(cmpAudio);
 
+    stateMachine = GameState.Running;
+
     state = new Game();
+
 
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
