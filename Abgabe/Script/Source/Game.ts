@@ -1,13 +1,13 @@
 namespace Script {
-  import ƒ = FudgeCore;
-  import ƒui = FudgeUserInterface;
+  import f = FudgeCore;
+  import fui = FudgeUserInterface;
 
   interface Data{
   highscore:number;
   lives: number;  
   }
   export class Game extends ƒ.Mutable {
-    public controller: ƒui.Controller;
+    public controller: fui.Controller;
 
     public externalData: Data;
 
@@ -18,7 +18,7 @@ namespace Script {
 
     constructor() {
       super();
-      this.controller = new ƒui.Controller(this, document.querySelector("#vui"));
+      this.controller = new fui.Controller(this, document.querySelector("#vui"));
       this.highscore = this.externalData.highscore;
       this.lives = this.externalData.lives;
       console.log(this.controller);
@@ -38,6 +38,7 @@ namespace Script {
         this.lives--;
         if (this.lives<=0){
             this.stateMachine = GameState.GameOver;
+            f.Loop.stop();
         }
 
       }
