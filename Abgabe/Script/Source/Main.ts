@@ -34,7 +34,7 @@ namespace Script {
     ball = new Ball();
     paddle = new Paddle();
     paddleMovement = paddle.getComponent(PaddleMovementComponent)
-
+    
     this.createBricks(graph);
 
     graph.addChild(paddle);
