@@ -1,13 +1,23 @@
 Title: Brickout
+
 Author: Niclas Cravaack
+
 Summer Semester 2024
+
 Medieninformatik Bachelor 
+
 Semester: 11
+
 Course: Prima
+
 Docent: Jirka Dell`Oro-Friedl
+
 Link to executable application: https://niclas-cravaack.github.io/AbgabePrima/Abgabe/index.html
+
 Link to source code: https://github.com/Niclas-Cravaack/AbgabePrima/tree/main/Abgabe
+
 Link to design document:
+
 Interaction: Paddle Movement Controll with A and D. 
 
 |Nr. |Criterion|Explanation|
