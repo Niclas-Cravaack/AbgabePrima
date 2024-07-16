@@ -14,7 +14,7 @@ Docent: Jirka Dell`Oro-Friedl
 
 Link to executable application: https://niclas-cravaack.github.io/AbgabePrima/Abgabe/index.html
 
-Link to source code: https://github.com/Niclas-Cravaack/AbgabePrima/tree/main/Abgabe
+Link to source code: https://github.com/Niclas-Cravaack/AbgabePrima/tree/main/Abgabe/Script/Source
 
 Link to design document: https://github.com/Niclas-Cravaack/AbgabePrima/blob/main/PRIMA_Konzept_und_Anforderungen.pdf
 
