@@ -13,13 +13,7 @@ Interaction: Paddle Movement Controll with A and D.
 |Nr. |Criterion|Explanation|
 |---------------|--------------- |--------------- |
 |1 |Units and Positions|Die Null ist die World (0,0,0) die eins ist der Ball da er der Maßstab für das Paddle und die Bricks ist damit er diese Objekte gut treffen kann. |
-|2|Hierarchy|Graph 
-
-              - Paddle 
-
-              - Ball 
-
-              - Bricks |
+|2|Hierarchy|Graph |
 |3|Editor|Ich habe auf den Editor verzichtet da es mir im Code leichter fiel die Objekte zu generieren man könnte den Editor jedoch gut für einen animierten hintergrund verwenden indem man die Transform einer Textur ansteuert. |
 |4|Scriptcomponents|Die Steuerung des Paddles ist in eine Custom Component Script ausgelagert. |
 |5|Extend|Die FudgeUserInterface Klasse wurde verwendet, um das Userinterface zu erstellen. |
