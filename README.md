@@ -35,6 +35,7 @@ Interaction: Paddle Movement Controll with A and D.
 |C|Net||
 |D|State Machines|Die Gamestate.ts verwealtet zwei Zustände des Spiels einmal das Spiel läuft und das Gameover wenn die Leben auf Null fallen.|
 |E|Animation||
+
  2.Hierarchy
 
  Graph 
