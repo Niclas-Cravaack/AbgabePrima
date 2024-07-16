@@ -38,7 +38,7 @@ Interaction: Paddle Movement Controll with A and D.
 
  2. Hierarchy
 
- Graph 
- - Paddle 
- - Ball 
- - Bricks|
+     Graph 
+      - Paddle 
+      - Ball 
+      - Bricks|
