@@ -16,7 +16,7 @@ Link to executable application: https://niclas-cravaack.github.io/AbgabePrima/Ab
 
 Link to source code: https://github.com/Niclas-Cravaack/AbgabePrima/tree/main/Abgabe
 
-Link to design document:
+Link to design document: https://github.com/Niclas-Cravaack/AbgabePrima/blob/main/PRIMA_Konzept_und_Anforderungen.pdf
 
 Interaction: Paddle Movement Controll with A and D. 
 
