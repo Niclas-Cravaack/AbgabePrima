@@ -11,6 +11,7 @@ Link to design document:
 Interaction: Paddle Movement Controll with A and D. 
 
 |Nr. |Criterion|Explanation|
+|---------------|--------------- |--------------- |
 |1 |Units and Positions|Die Null ist die World (0,0,0) die eins ist der Ball da er der Maßstab für das Paddle und die Bricks ist damit er diese Objekte gut treffen kann. |
 |2|Hierarchy|Graph 
 
