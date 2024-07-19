@@ -12,9 +12,9 @@
   <!-- <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Physics/OimoPhysics.js"></script> -->
 
   <!-- Load FUDGE. You may want to download local copies to work offline and be independent from future changes! Developers working on FUDGE itself may want to create symlinks -->
-  <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Core/Build/FudgeCore.js"></script>
-  <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Aid/Build/FudgeAid.js"></script>
-
+  <script type="text/javascript" src="RuntimeFiles/FudgeCore.js"></script>
+  <script type="text/javascript" src="RuntimeFiles/FudgeAid.js"></script>
+  <script type="text/javascript" src="RuntimeFiles/FudgeUserInterface.js"></script>
   <!-- Link internal resources. The editor only loads the first, but at runtime, multiple files can contribute -->
   <link type="resources" src="Internal.json" />
 
@@ -37,8 +37,9 @@
 
   <!-- Highscore and Lives display -->
   <div id="gameInfo">
-    <div id="highscore">Highscore: 0</div>
-    <div id="lives">Lives: 3</div>
+    <input type="number" key="highscore">
+    <div id="lives">Lives: <input type="number" key ="lives"></div>
   </div>
+
 </body>
 </html>

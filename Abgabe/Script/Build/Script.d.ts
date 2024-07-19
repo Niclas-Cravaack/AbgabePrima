@@ -1,13 +1,14 @@
 declare namespace Script {
-    import f = FudgeCore;
-    class Ball {
-        node: f.Node;
-        velocity: f.Vector3;
-        constructor(graph: f.Node);
+    import ƒ = FudgeCore;
+    class Ball extends ƒ.Node {
+        velocity: ƒ.Vector3;
+        constructor();
         private createBall;
         move(): void;
-        checkCollisionWithPaddle(paddle: f.Node): boolean;
-        checkCollisionWithBricks(bricks: f.Node): boolean;
+        checkCollisionWithPaddle(paddle: ƒ.Node): void;
+        checkCollisionWithBricks(bricks: ƒ.Node): void;
+        hasLeftField(): boolean;
+        private reset;
     }
 }
 declare namespace Script {
@@ -15,11 +16,6 @@ declare namespace Script {
     class Brick extends ƒ.Node {
         constructor();
         private init;
-    }
-}
-declare namespace Script {
-    class BrickFactory {
-        static createBrick(): Brick;
     }
 }
 declare namespace Script {
@@ -32,28 +28,56 @@ declare namespace Script {
     }
 }
 declare namespace Script {
-    class Game {
-        private viewport;
-        private ball;
-        private paddle;
-        private bricks;
+    import fui = FudgeUserInterface;
+    class Game extends ƒ.Mutable {
+        controller: fui.Controller;
+        stateMachine: GameState;
+        private highscore;
+        private lives;
         constructor();
-        private start;
-        private setupCamera;
-        private createBricks;
-        private update;
-        private checkCollisions;
+        /**
+         * setHeight
+         */
+        setHighscore(_highscore: number): void;
+        loseLife(): void;
+        increaseHighscore(x: number): void;
+        protected reduceMutator(_mutator: ƒ.Mutator): void;
     }
 }
 declare namespace Script {
+    enum GameState {
+        Running = 0,
+        GameOver = 1
+    }
+    class StateMachine {
+        private currentState;
+        constructor();
+        setState(state: GameState): void;
+        getState(): GameState;
+    }
+}
+declare namespace Script {
+    interface Data {
+        cameraDistance: number;
+        highscore: number;
+        lives: number;
+    }
+    export let state: Game;
+    export let data: Data;
+    export {};
 }
 declare namespace Script {
     import f = FudgeCore;
-    class Paddle {
-        node: f.Node;
-        private speed;
-        constructor(graph: f.Node);
+    class Paddle extends f.Node {
+        constructor();
         private createPaddle;
-        move(): void;
+    }
+}
+declare namespace Script {
+    import f = FudgeCore;
+    class PaddleMovementComponent extends f.ComponentScript {
+        static readonly iSubclass: number;
+        speed: number;
+        update(): void;
     }
 }

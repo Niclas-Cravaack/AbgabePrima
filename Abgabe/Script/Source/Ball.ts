@@ -11,12 +11,18 @@ namespace Script {
 
     private createBall(): void {
       const mesh: ƒ.MeshSphere = new ƒ.MeshSphere();
-      const coat: ƒ.CoatColored = new ƒ.CoatColored(ƒ.Color.CSS("white"));
-      const material: ƒ.Material = new ƒ.Material("MaterialBall", ƒ.ShaderLit, coat);
+      const coat: ƒ.CoatColored = new ƒ.CoatRemissive(ƒ.Color.CSS("white"));
+      const material: ƒ.Material = new ƒ.Material("MaterialBall", ƒ.ShaderFlat, coat);
 
       this.addComponent(new ƒ.ComponentMesh(mesh));
       this.addComponent(new ƒ.ComponentMaterial(material));
       this.addComponent(new ƒ.ComponentTransform());
+
+      let light =new ƒ.ComponentLight(new ƒ.LightPoint(ƒ.Color.CSS("white")));
+      light.mtxPivot.translateZ(10);
+      light.mtxPivot.scale(new ƒ.Vector3(20,20,20));
+
+      this.addComponent(light);
     }
 
     public move(): void {
@@ -26,12 +32,30 @@ namespace Script {
       if (this.mtxLocal.translation.x > 7 || this.mtxLocal.translation.x < -7) {
         this.velocity.x *= -1;
       }
-      if (this.mtxLocal.translation.y > 7 || this.mtxLocal.translation.y < -7) {
+      if (this.mtxLocal.translation.y > 7) {
+        // Verlassen des Spielfelds - Leben verlieren und Ball zurücksetzen
+        this.velocity.y *= -1;
+      }
+      if ( this.mtxLocal.translation.y < -7) {
         // Verlassen des Spielfelds - Leben verlieren und Ball zurücksetzen
         Script.state.loseLife();
         this.reset();
       }
     }
+
+    public checkCollisionWithPaddle(paddle: ƒ.Node): void {
+
+      let posBall: ƒ.Vector3 = this.mtxLocal.translation;
+      let posBrick: ƒ.Vector3 = paddle.mtxLocal.translation;
+
+        if (
+          Math.abs(posBall.x - posBrick.x) < 1 &&
+          Math.abs(posBall.y - posBrick.y) < 0.5
+        ) {
+          this.velocity.y *= -1; // Richtung umkehren
+      return;
+    }
+  }
 
     public checkCollisionWithBricks(bricks: ƒ.Node): void {
       for (let brick of bricks.getChildren()) {
@@ -44,7 +68,7 @@ namespace Script {
         ) {
           this.velocity.y *= -1; // Richtung umkehren
           bricks.removeChild(brick); // Brick entfernen
-          Script.state.increaseHighscore(10); // Highscore erhöhen
+          this.dispatchEvent(new CustomEvent("hitBrick"))
           break;
         }
       }

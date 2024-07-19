@@ -1,6 +1,10 @@
 namespace Script {
+
+
   interface Data{
     cameraDistance: number
+    highscore:number;
+    lives: number; 
   }
 
   import f = FudgeCore;
@@ -18,26 +22,30 @@ namespace Script {
   let bricks: f.Node;
   let paddleMovement: PaddleMovementComponent;
 
-  export let graph: f.Node = viewport.getBranch();
-
+  
+  
   export let state: Game;
   export let data: Data;
-
   async function start(_event: CustomEvent): Promise<void> {
+    data= await(await fetch("Script/Source/Data.JSON")).json() ;
     viewport= _event.detail;
-
+    
     camera = viewport.camera;
     camera.mtxPivot.translate(new f.Vector3(0,0,data.cameraDistance))
 
     bricks = new f.Node("Bricks");
 
     ball = new Ball();
+    ball.addEventListener("hitBrick", increaseHighscore);
     paddle = new Paddle();
-    paddleMovement = paddle.getComponent(PaddleMovementComponent)
+    paddleMovement = new PaddleMovementComponent();
+    paddle.addComponent(paddleMovement);
     
-    this.createBricks(graph);
+    let graph: f.Node = viewport.getBranch();
+
 
     graph.addChild(paddle);
+
     graph.addChild(ball);
     
     createBricks(graph);
@@ -45,7 +53,7 @@ namespace Script {
     let cmpAudio: f.ComponentAudio = graph.getComponent(f.ComponentAudio);
 
     let backgroundMusic: f.Audio = new f.Audio();
-    await backgroundMusic.load("./Audio/background.mp3");
+    await backgroundMusic.load("Script/Source/Audio/background.mp3");
 
     cmpAudio = new f.ComponentAudio(backgroundMusic, true,true)
 
@@ -60,14 +68,16 @@ namespace Script {
     f.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
   }
 
-  
+  function increaseHighscore(){
+    Script.state.increaseHighscore(10); // Highscore erhöhen
+  }
   function update(_event: Event): void {
     // ƒ.Physics.simulate();  // if physics is included and used
     
-    this.paddle.move();
-    this.ball.move();
-    this.ball.checkCollisionWithBricks(bricks);
-    this.ball.checkCollisionWithPaddle(paddle);
+    paddleMovement.update();
+    ball.move();
+    ball.checkCollisionWithBricks(bricks);
+    ball.checkCollisionWithPaddle(paddle);
     
     if (ball.hasLeftField()) {
     state.loseLife();
@@ -82,13 +92,14 @@ namespace Script {
   function createBricks(graph: f.Node): void {
     for (let y: number = 0; y < 5; y++) {
       for (let x: number = 0; x < 10; x++) {
-        const brick: Brick = BrickFactory.createBrick();
+        const brick = new Brick();
+
         brick.mtxLocal.translateX(x - 5);
         brick.mtxLocal.translateY(6 - y);
         bricks.addChild(brick);
       }
     }
-    graph.addChild(this.bricks);
+    graph.addChild(bricks);
     
   }
 }

@@ -9,8 +9,8 @@ namespace Script {
 
     private init(): void {
       const mesh: ƒ.MeshQuad = new ƒ.MeshQuad();
-      const coat: ƒ.CoatColored = new ƒ.CoatColored(ƒ.Color.CSS("red"));
-      const material: ƒ.Material = new ƒ.Material("MaterialBrick", ƒ.ShaderLit, coat);
+      const coat: ƒ.CoatColored = new ƒ.CoatRemissive(ƒ.Color.CSS("red"));
+      const material: ƒ.Material = new ƒ.Material("MaterialBrick", ƒ.ShaderFlat, coat);
 
       this.addComponent(new ƒ.ComponentMesh(mesh));
       this.addComponent(new ƒ.ComponentMaterial(material));

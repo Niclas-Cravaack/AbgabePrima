@@ -2,14 +2,10 @@ namespace Script {
   import f = FudgeCore;
   import fui = FudgeUserInterface;
 
-  interface Data{
-  highscore:number;
-  lives: number;  
-  }
   export class Game extends ƒ.Mutable {
     public controller: fui.Controller;
 
-    public externalData: Data;
+    
 
     public stateMachine: GameState;
 
@@ -18,9 +14,9 @@ namespace Script {
 
     constructor() {
       super();
-      this.controller = new fui.Controller(this, document.querySelector("#vui"));
-      this.highscore = this.externalData.highscore;
-      this.lives = this.externalData.lives;
+      this.controller = new fui.Controller(this, document.querySelector("#gameInfo"));
+      this.highscore = data.highscore;
+      this.lives = data.lives;
       console.log(this.controller);
       
     }
@@ -44,7 +40,7 @@ namespace Script {
       }
 
       public increaseHighscore(x: number): void{
-        this.highscore+x;
+        this.highscore+=x;
       }
 
     protected reduceMutator(_mutator: ƒ.Mutator): void {/* */ }

@@ -3,30 +3,27 @@ namespace Script {
   import f = FudgeCore;
   
   export class Paddle extends f.Node {
-    public node: f.Node;
    
 
     constructor() {
       super("PaddlePos");
-      this.node = this.createPaddle();
+      this.createPaddle();
       
     }
 
-    private createPaddle(): f.Node {
-      const node: f.Node = new f.Node("Paddle");
+    private createPaddle(): void {
 
       const mesh: f.MeshQuad = new f.MeshQuad();
-      const coat: f.CoatColored = new f.CoatColored(f.Color.CSS("blue"));
-      const material: f.Material = new f.Material("MaterialPaddle", f.ShaderLit, coat);
+      const coat: f.CoatColored = new f.CoatRemissive(f.Color.CSS("blue"));
+      const material: f.Material = new f.Material("MaterialPaddle", f.ShaderFlat, coat);
 
-      node.addComponent(new f.ComponentMesh(mesh));
-      node.addComponent(new f.ComponentMaterial(material));
-      node.addComponent(new f.ComponentTransform());
+      this.addComponent(new f.ComponentMesh(mesh));
+      this.addComponent(new f.ComponentMaterial(material));
+      this.addComponent(new f.ComponentTransform());
 
-      node.mtxLocal.scaleX(2);
-      node.mtxLocal.translateY(-6);
+      this.mtxLocal.scaleX(2);
+      this.mtxLocal.translateY(-6);
 
-      return node;
     }
 
   }
